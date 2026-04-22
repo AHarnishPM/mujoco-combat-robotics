@@ -42,12 +42,12 @@
 
     <!-- Spawn marker for robot base -->
     <site name="spawn_center" pos="0 0 0.01" size="0.03" rgba="0.9 0.1 0.1 0.8"/>
+
+    <camera name="iso" pos="2.8 -2.8 2.0" xyaxes="0.707 0.707 0 -0.4 0.4 0.82"/>
+    <camera name="top_down" pos="0 0 3.2" xyaxes="1 0 0 0 1 0"/>
   </worldbody>
 
   <statistic center="0 0 0.1" extent="2.0"/>
-
-  <camera name="iso" pos="2.8 -2.8 2.0" xyaxes="0.707 0.707 0 -0.4 0.4 0.82"/>
-  <camera name="top_down" pos="0 0 3.2" xyaxes="1 0 0 0 1 0"/>
 
   <!-- Optional: include your robot model once available -->
   <!-- <include file="robot_template.xml"/> -->
