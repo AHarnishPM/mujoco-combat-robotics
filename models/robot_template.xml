@@ -1,0 +1,49 @@
+<mujoco model="battle_bot_template">
+  <asset>
+    <!-- Replace with your CAD exports (STL/OBJ) -->
+    <!-- <mesh name="chassis_mesh" file="meshes/chassis.stl" scale="0.001 0.001 0.001"/> -->
+    <!-- <mesh name="wheel_mesh" file="meshes/wheel.stl" scale="0.001 0.001 0.001"/> -->
+    <!-- <mesh name="weapon_mesh" file="meshes/weapon.stl" scale="0.001 0.001 0.001"/> -->
+  </asset>
+
+  <worldbody>
+    <!-- Put this body under arena worldbody when not using include -->
+    <body name="robot" pos="0 0 0.06">
+      <freejoint/>
+
+      <!-- Option A: quick primitive chassis for tuning -->
+      <geom name="chassis_col" type="box" size="0.10 0.08 0.03" mass="1.2" rgba="0.25 0.25 0.3 1"/>
+
+      <!-- Option B: visual mesh + simpler collision proxy -->
+      <!-- <geom type="mesh" mesh="chassis_mesh" rgba="0.25 0.25 0.3 1" contype="0" conaffinity="0"/> -->
+      <!-- <geom type="box" size="0.10 0.08 0.03" mass="1.2" rgba="0 0 0 0"/> -->
+
+      <!-- Left drive wheel -->
+      <body name="wheel_left" pos="0 0.09 0">
+        <joint name="wheel_left_joint" type="hinge" axis="0 1 0"/>
+        <geom name="wheel_left_col" type="cylinder" size="0.035 0.02" euler="90 0 0" mass="0.15" friction="1.4 0.005 0.0001" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
+      </body>
+
+      <!-- Right drive wheel -->
+      <body name="wheel_right" pos="0 -0.09 0">
+        <joint name="wheel_right_joint" type="hinge" axis="0 1 0"/>
+        <geom name="wheel_right_col" type="cylinder" size="0.035 0.02" euler="90 0 0" mass="0.15" friction="1.4 0.005 0.0001" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
+      </body>
+
+      <!-- Spinner / weapon body -->
+      <body name="weapon" pos="0.11 0 0.01">
+        <joint name="weapon_joint" type="hinge" axis="1 0 0"/>
+        <geom name="weapon_col" type="capsule" fromto="-0.08 0 0 0.08 0 0" size="0.01" mass="0.25" rgba="0.75 0.1 0.1 1"/>
+        <!-- <geom type="mesh" mesh="weapon_mesh" rgba="0.75 0.1 0.1 1"/> -->
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="left_drive_motor"  joint="wheel_left_joint"  gear="0.7" ctrllimited="true" ctrlrange="-40 40"/>
+    <motor name="right_drive_motor" joint="wheel_right_joint" gear="0.7" ctrllimited="true" ctrlrange="-40 40"/>
+    <motor name="weapon_motor"      joint="weapon_joint"      gear="0.2" ctrllimited="true" ctrlrange="0 200"/>
+  </actuator>
+</mujoco>

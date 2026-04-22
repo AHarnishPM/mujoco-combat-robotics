@@ -1,0 +1,54 @@
+<mujoco model="nhrl_arena_8x8">
+  <compiler angle="degree" coordinate="local"/>
+  <option gravity="0 0 -9.81" timestep="0.002"/>
+
+  <visual>
+    <headlight ambient="0.35 0.35 0.35" diffuse="0.7 0.7 0.7" specular="0.1 0.1 0.1"/>
+    <map znear="0.01"/>
+    <quality shadowsize="2048"/>
+  </visual>
+
+  <asset>
+    <!-- Arena floor is 8ft x 8ft = 2.4384m x 2.4384m -->
+    <texture name="floor_checker" type="2d" builtin="checker" rgb1="0.22 0.22 0.22" rgb2="0.15 0.15 0.15" width="1024" height="1024"/>
+    <material name="mat_floor" texture="floor_checker" texrepeat="8 8" reflectance="0.05" rgba="0.95 0.95 0.95 1"/>
+    <material name="mat_wall" rgba="0.7 0.75 0.8 0.25" specular="0.2"/>
+  </asset>
+
+  <default>
+    <geom friction="1.0 0.02 0.001" condim="3"/>
+    <joint damping="0.1" armature="0.001"/>
+    <motor ctrllimited="true" ctrlrange="-1 1"/>
+  </default>
+
+  <worldbody>
+    <light name="arena_light_1" pos="0 0 3.0" dir="0 0 -1" directional="true" diffuse="1 1 1"/>
+    <light name="arena_light_2" pos="1.5 -1.5 2.5" diffuse="0.6 0.6 0.6"/>
+
+    <!-- Floor top surface at z = 0 -->
+    <geom name="arena_floor"
+          type="box"
+          size="1.2192 1.2192 0.02"
+          pos="0 0 -0.02"
+          material="mat_floor"
+          contype="1"
+          conaffinity="1"/>
+
+    <!-- Approximate NHRL lexan/perimeter boundary walls -->
+    <geom name="north_wall" type="box" size="1.2192 0.0127 0.2032" pos="0 1.2319 0.2032" material="mat_wall" contype="1" conaffinity="1"/>
+    <geom name="south_wall" type="box" size="1.2192 0.0127 0.2032" pos="0 -1.2319 0.2032" material="mat_wall" contype="1" conaffinity="1"/>
+    <geom name="east_wall"  type="box" size="0.0127 1.2192 0.2032" pos="1.2319 0 0.2032" material="mat_wall" contype="1" conaffinity="1"/>
+    <geom name="west_wall"  type="box" size="0.0127 1.2192 0.2032" pos="-1.2319 0 0.2032" material="mat_wall" contype="1" conaffinity="1"/>
+
+    <!-- Spawn marker for robot base -->
+    <site name="spawn_center" pos="0 0 0.01" size="0.03" rgba="0.9 0.1 0.1 0.8"/>
+  </worldbody>
+
+  <statistic center="0 0 0.1" extent="2.0"/>
+
+  <camera name="iso" pos="2.8 -2.8 2.0" xyaxes="0.707 0.707 0 -0.4 0.4 0.82"/>
+  <camera name="top_down" pos="0 0 3.2" xyaxes="1 0 0 0 1 0"/>
+
+  <!-- Optional: include your robot model once available -->
+  <!-- <include file="robot_template.xml"/> -->
+</mujoco>
