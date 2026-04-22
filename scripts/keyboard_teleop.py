@@ -42,9 +42,9 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="Keyboard teleop for battle bot arena")
     parser.add_argument("--model", default="models/nhrl_arena.xml", help="Path to MJCF model")
-    parser.add_argument("--drive", type=float, default=22.0, help="Drive command magnitude")
-    parser.add_argument("--turn", type=float, default=14.0, help="Turn command magnitude")
-    parser.add_argument("--weapon", type=float, default=120.0, help="Weapon command while held")
+    parser.add_argument("--drive", type=float, default=30.0, help="Drive command magnitude")
+    parser.add_argument("--turn", type=float, default=16.0, help="Turn command magnitude")
+    parser.add_argument("--weapon", type=float, default=95.0, help="Weapon command while held")
     parser.add_argument("--weapon-key", default="F", help="Single-character weapon key")
     args = parser.parse_args()
 
@@ -56,8 +56,10 @@ def main() -> None:
     model = mujoco.MjModel.from_xml_path(args.model)
     data = mujoco.MjData(model)
 
-    left_id = actuator_id(model, "left_drive_motor")
-    right_id = actuator_id(model, "right_drive_motor")
+    left_front_id = actuator_id(model, "left_front_drive_motor")
+    left_rear_id = actuator_id(model, "left_rear_drive_motor")
+    right_front_id = actuator_id(model, "right_front_drive_motor")
+    right_rear_id = actuator_id(model, "right_rear_drive_motor")
     weapon_id = actuator_id(model, "weapon_motor")
 
     if not glfw.init():
@@ -105,8 +107,12 @@ def main() -> None:
                 and glfw.get_key(window, ord(weapon_key)) == glfw.PRESS
             )
 
-        data.ctrl[left_id] = throttle * args.drive - turn * args.turn
-        data.ctrl[right_id] = throttle * args.drive + turn * args.turn
+        left_cmd = throttle * args.drive - turn * args.turn
+        right_cmd = throttle * args.drive + turn * args.turn
+        data.ctrl[left_front_id] = left_cmd
+        data.ctrl[left_rear_id] = left_cmd
+        data.ctrl[right_front_id] = right_cmd
+        data.ctrl[right_rear_id] = right_cmd
         data.ctrl[weapon_id] = args.weapon if weapon_pressed else 0.0
 
         mujoco.mj_step(model, data)
