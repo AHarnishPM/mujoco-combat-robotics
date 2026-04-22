@@ -13,6 +13,10 @@
     <texture name="floor_nhrl" type="2d" file="textures/nhrl_floor_texture.png"/>
     <material name="mat_floor" texture="floor_nhrl" texrepeat="1 1" reflectance="0.05" rgba="1 1 1 1"/>
     <material name="mat_wall" rgba="0.7 0.75 0.8 0.25" specular="0.2"/>
+    <!-- Replace with your CAD exports (STL/OBJ) -->
+    <!-- <mesh name="chassis_mesh" file="meshes/chassis.stl" scale="0.001 0.001 0.001"/> -->
+    <!-- <mesh name="wheel_mesh" file="meshes/wheel.stl" scale="0.001 0.001 0.001"/> -->
+    <!-- <mesh name="weapon_mesh" file="meshes/weapon.stl" scale="0.001 0.001 0.001"/> -->
   </asset>
 
   <default>
@@ -53,34 +57,48 @@
     <!-- Default robot so arena file is immediately drivable -->
     <body name="robot" pos="0 0 0.035">
       <freejoint/>
-      <!-- 3 lb bot target mass split: chassis 0.90kg, weapon 0.34kg, wheels 0.03kg each -->
-      <geom name="chassis_col" type="box" size="0.10 0.08 0.03" mass="0.70" rgba="0.25 0.25 0.3 1"/>
-      <!-- Hidden low ballast to keep center of mass down and reduce tipping/floaty feel -->
-      <geom name="chassis_ballast" type="box" pos="0 0 -0.02" size="0.07 0.055 0.008" mass="0.20" rgba="0 0 0 0"/>
 
+      <!-- Option A: quick primitive chassis for tuning -->
+      <!-- 3 lb bot target mass split: chassis 0.90kg, weapon 0.34kg, wheels 0.03kg each -->
+      <geom name="chassis_col" type="box" size="0.10 0.08 0.03" mass="0.8" rgba="0.25 0.25 0.3 1"/>
+      <!-- Hidden low ballast to keep center of mass down and reduce tipping/floaty feel -->
+      <geom name="chassis_ballast" type="box" pos="0 0 -0.02" size="0.07 0.055 0.008" mass="0.41" rgba="0 0 0 0"/>
+
+      <!-- Option B: visual mesh + simpler collision proxy -->
+      <!-- <geom type="mesh" mesh="chassis_mesh" rgba="0.25 0.25 0.3 1" contype="0" conaffinity="0"/> -->
+      <!-- <geom type="box" size="0.10 0.08 0.03" mass="1.2" rgba="0 0 0 0"/> -->
+
+      <!-- Left drive wheels -->
       <body name="wheel_front_left" pos="0.06 0.09 0">
         <joint name="wheel_front_left_joint" class="wheel_joint" type="hinge" axis="0 1 0"/>
-        <geom name="wheel_front_left_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.03" rgba="0.05 0.05 0.05 1"/>
+        <geom name="wheel_front_left_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.035" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
       </body>
 
       <body name="wheel_rear_left" pos="-0.06 0.09 0">
         <joint name="wheel_rear_left_joint" class="wheel_joint" type="hinge" axis="0 1 0"/>
-        <geom name="wheel_rear_left_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.03" rgba="0.05 0.05 0.05 1"/>
+        <geom name="wheel_rear_left_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.035" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
       </body>
 
+      <!-- Right drive wheels -->
       <body name="wheel_front_right" pos="0.06 -0.09 0">
         <joint name="wheel_front_right_joint" class="wheel_joint" type="hinge" axis="0 1 0"/>
-        <geom name="wheel_front_right_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.03" rgba="0.05 0.05 0.05 1"/>
+        <geom name="wheel_front_right_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.035" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
       </body>
 
       <body name="wheel_rear_right" pos="-0.06 -0.09 0">
         <joint name="wheel_rear_right_joint" class="wheel_joint" type="hinge" axis="0 1 0"/>
-        <geom name="wheel_rear_right_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.03" rgba="0.05 0.05 0.05 1"/>
+        <geom name="wheel_rear_right_col" class="wheel_geom" type="cylinder" size="0.0385 0.012" euler="90 0 0" mass="0.035" rgba="0.05 0.05 0.05 1"/>
+        <!-- <geom type="mesh" mesh="wheel_mesh" rgba="0.05 0.05 0.05 1"/> -->
       </body>
 
+      <!-- Front-bottom horizontal spinner (flat-ish square) -->
       <body name="weapon" pos="0.11 0 -0.02">
         <joint name="weapon_joint" type="hinge" axis="0 0 1"/>
-        <geom name="weapon_col" type="box" size="0.055 0.055 0.004" mass="0.34" rgba="0.75 0.1 0.1 1"/>
+        <geom name="weapon_col" type="box" size="0.055 0.055 0.004" mass="0.20" rgba="0.75 0.1 0.1 1"/>
+        <!-- <geom type="mesh" mesh="weapon_mesh" rgba="0.75 0.1 0.1 1"/> -->
       </body>
     </body>
 
