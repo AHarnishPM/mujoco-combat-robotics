@@ -10,6 +10,10 @@ The MuJoCo arena floor scene is in:
 
 It creates an 8ft x 8ft floor (`2.4384m x 2.4384m`) with boundary walls and cameras so you can open it directly in MuJoCo desktop.
 
+Floor texture:
+
+- `models/textures/nhrl_floor_texture.png` (downloaded from NHRL wiki media)
+
 ## Open In MuJoCo Desktop
 
 1. Launch MuJoCo desktop app.

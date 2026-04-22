@@ -10,8 +10,8 @@
 
   <asset>
     <!-- Arena floor is 8ft x 8ft = 2.4384m x 2.4384m -->
-    <texture name="floor_checker" type="2d" builtin="checker" rgb1="0.22 0.22 0.22" rgb2="0.15 0.15 0.15" width="1024" height="1024"/>
-    <material name="mat_floor" texture="floor_checker" texrepeat="8 8" reflectance="0.05" rgba="0.95 0.95 0.95 1"/>
+    <texture name="floor_nhrl" type="2d" file="textures/nhrl_floor_texture.png"/>
+    <material name="mat_floor" texture="floor_nhrl" texrepeat="1 1" reflectance="0.05" rgba="1 1 1 1"/>
     <material name="mat_wall" rgba="0.7 0.75 0.8 0.25" specular="0.2"/>
   </asset>
 
