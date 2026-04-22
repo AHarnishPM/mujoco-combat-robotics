@@ -43,12 +43,36 @@
     <!-- Spawn marker for robot base -->
     <site name="spawn_center" pos="0 0 0.01" size="0.03" rgba="0.9 0.1 0.1 0.8"/>
 
+    <!-- Default robot so arena file is immediately drivable -->
+    <body name="robot" pos="0 0 0.06">
+      <freejoint/>
+      <geom name="chassis_col" type="box" size="0.10 0.08 0.03" mass="1.2" rgba="0.25 0.25 0.3 1"/>
+
+      <body name="wheel_left" pos="0 0.09 0">
+        <joint name="wheel_left_joint" type="hinge" axis="0 1 0"/>
+        <geom name="wheel_left_col" type="cylinder" size="0.035 0.02" euler="90 0 0" mass="0.15" friction="1.4 0.005 0.0001" rgba="0.05 0.05 0.05 1"/>
+      </body>
+
+      <body name="wheel_right" pos="0 -0.09 0">
+        <joint name="wheel_right_joint" type="hinge" axis="0 1 0"/>
+        <geom name="wheel_right_col" type="cylinder" size="0.035 0.02" euler="90 0 0" mass="0.15" friction="1.4 0.005 0.0001" rgba="0.05 0.05 0.05 1"/>
+      </body>
+
+      <body name="weapon" pos="0.11 0 -0.02">
+        <joint name="weapon_joint" type="hinge" axis="0 0 1"/>
+        <geom name="weapon_col" type="box" size="0.055 0.055 0.004" mass="0.25" rgba="0.75 0.1 0.1 1"/>
+      </body>
+    </body>
+
     <camera name="iso" pos="2.8 -2.8 2.0" xyaxes="0.707 0.707 0 -0.4 0.4 0.82"/>
     <camera name="top_down" pos="0 0 3.2" xyaxes="1 0 0 0 1 0"/>
   </worldbody>
 
   <statistic center="0 0 0.1" extent="2.0"/>
 
-  <!-- Optional: include your robot model once available -->
-  <!-- <include file="robot_template.xml"/> -->
+  <actuator>
+    <motor name="left_drive_motor"  joint="wheel_left_joint"  gear="0.7" ctrllimited="true" ctrlrange="-40 40"/>
+    <motor name="right_drive_motor" joint="wheel_right_joint" gear="0.7" ctrllimited="true" ctrlrange="-40 40"/>
+    <motor name="weapon_motor"      joint="weapon_joint"      gear="0.2" ctrllimited="true" ctrlrange="0 200"/>
+  </actuator>
 </mujoco>

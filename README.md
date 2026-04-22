@@ -15,6 +15,18 @@ It creates an 8ft x 8ft floor (`2.4384m x 2.4384m`) with boundary walls and came
 1. Launch MuJoCo desktop app.
 2. Open `models/nhrl_arena.xml`.
 3. Use camera `iso` or `top_down` in the UI camera selector.
+4. Open the Controls/Actuators panel and move:
+   - `left_drive_motor`
+   - `right_drive_motor`
+   - `weapon_motor`
+
+### Quick drive values in MuJoCo desktop
+
+- Forward: left `+20`, right `+20`
+- Reverse: left `-20`, right `-20`
+- Turn left: left `-12`, right `+12`
+- Turn right: left `+12`, right `-12`
+- Spin weapon: `weapon_motor` around `80` to `160`
 
 ## Add Your Robot CAD + Wheels + Weapon
 
@@ -31,8 +43,7 @@ Use `models/robot_template.xml` as the base template:
 5. Tune joint axes:
    - wheel hinge axes should align with wheel axle
    - weapon hinge axis should align with spinner shaft
-6. Include robot in arena by uncommenting this line in `models/nhrl_arena.xml`:
-   - `<include file="robot_template.xml"/>`
+6. Copy your robot body/actuator definitions from `models/robot_template.xml` into `models/nhrl_arena.xml` (or maintain a combined scene file) before loading in MuJoCo desktop.
 
 ## Controls/Actuators
 
@@ -43,3 +54,41 @@ Use `models/robot_template.xml` as the base template:
 - `weapon_motor`
 
 In MuJoCo desktop, use the Actuator controls panel to send inputs and verify wheel/weapon behavior.
+
+## Keyboard Teleop (Arrow Keys + F)
+
+You can drive the arena robot with keyboard input using:
+
+- `scripts/keyboard_teleop.py`
+
+### Install Python deps
+
+- `pip install mujoco`
+
+### Run
+
+- `python3 scripts/keyboard_teleop.py`
+
+macOS note:
+
+- Use `python3`, not `mjpython`, for `scripts/keyboard_teleop.py`.
+- `mjpython` can crash with `NSWindow should only be instantiated on the main thread` when creating GLFW windows.
+
+Optional args:
+
+- `--model models/nhrl_arena.xml`
+- `--drive 22`
+- `--turn 14`
+- `--weapon 120`
+- `--weapon-key F`
+
+### Key mapping
+
+- `Up` / `Down`: forward / reverse
+- `Left` / `Right`: left / right turn
+- `F`: weapon spin (while held)
+
+Drive mixing is differential:
+
+- `left = throttle*drive - turn*turn_gain`
+- `right = throttle*drive + turn*turn_gain`
