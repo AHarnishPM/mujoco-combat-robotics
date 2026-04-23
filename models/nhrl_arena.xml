@@ -55,7 +55,7 @@
     <geom name="west_wall"  type="box" size="0.0127 1.2192 0.2032" pos="-1.2319 0 0.2032" material="mat_wall" contype="1" conaffinity="1"/>
 
     <!-- Default robot so arena file is immediately drivable -->
-    <body name="robot" pos="0 0 0.1">
+    <body name="robot" pos="0 0 0.035">
       <freejoint/>
 
       <!-- Option A: quick primitive chassis for tuning-->
